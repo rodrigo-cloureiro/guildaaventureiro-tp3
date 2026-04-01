@@ -8,6 +8,7 @@ import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.PapelMissao;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoResponse;
+import br.com.infnet.guildaaventureiro.dto.missao.TopMissoesResponse;
 import br.com.infnet.guildaaventureiro.dto.missao.enums.TipoDataMissao;
 import br.com.infnet.guildaaventureiro.repository.audit.UsuarioRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -22,9 +23,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -170,5 +171,13 @@ public class MissaoRepositoryTest {
                 pageable
         );
         assertTrue(resultado.getContent().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Deve retornar as 10 missões mais relevantes do últimos 15 dias")
+    public void shouldReturnTop10MostRelevantMissionsFromLast15Days() {
+        List<TopMissoesResponse> top15Dias = missaoRepository.top15Dias();
+        assertFalse(top15Dias.isEmpty());
+        assertEquals(10, top15Dias.size());
     }
 }
