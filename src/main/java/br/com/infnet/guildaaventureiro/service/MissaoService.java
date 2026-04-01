@@ -12,7 +12,6 @@ import br.com.infnet.guildaaventureiro.dto.PagedResponse;
 import br.com.infnet.guildaaventureiro.dto.missao.*;
 import br.com.infnet.guildaaventureiro.exception.aventura.BusinessException;
 import br.com.infnet.guildaaventureiro.mapper.MissaoMapper;
-import br.com.infnet.guildaaventureiro.repository.audit.OrganizacaoRepository;
 import br.com.infnet.guildaaventureiro.repository.aventura.MissaoRepository;
 import br.com.infnet.guildaaventureiro.repository.aventura.ParticipacaoMissaoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -64,6 +63,13 @@ public class MissaoService {
         List<AventureiroMissaoResponse> participantes = participacaoMissaoRepository.findParticipantesByMissaoId(id);
 
         return new MissaoDetailedResponse(MissaoMapper.toResponse(missao), participantes);
+    }
+
+    // ===========
+    // Top 15 dias
+    // ===========
+    public List<TopMissoesResponse> topMissoes15Dias() {
+        return missaoRepository.top15Dias();
     }
 
     // ================

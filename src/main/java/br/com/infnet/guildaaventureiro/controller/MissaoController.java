@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/missoes")
@@ -43,6 +45,15 @@ public class MissaoController {
     public ResponseEntity<MissaoDetailedResponse> detalharMissao(@PathVariable Long id) {
         return ResponseEntity.ok()
                 .body(missaoService.missaoDetalhada(id));
+    }
+
+    // ===========
+    // Top 15 dias
+    // ===========
+    @GetMapping(value = "/top15dias")
+    public ResponseEntity<List<TopMissoesResponse>> topMissoes15Dias() {
+        return ResponseEntity.ok()
+                .body(missaoService.topMissoes15Dias());
     }
 
     // ================
