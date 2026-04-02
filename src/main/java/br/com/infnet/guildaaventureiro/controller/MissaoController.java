@@ -5,6 +5,7 @@ import br.com.infnet.guildaaventureiro.dto.missao.MissaoCreate;
 import br.com.infnet.guildaaventureiro.dto.PagedResponse;
 import br.com.infnet.guildaaventureiro.dto.missao.*;
 import br.com.infnet.guildaaventureiro.service.MissaoService;
+import br.com.infnet.guildaaventureiro.service.PainelTaticoMissaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequestMapping(value = "/missoes")
 public class MissaoController {
     private final MissaoService missaoService;
+    private final PainelTaticoMissaoService painelTaticoMissaoService;
 
     // ==============
     // Listar Missões
@@ -48,12 +50,14 @@ public class MissaoController {
     }
 
     // ===========
-    // Top 15 dias
+    // Top X dias
     // ===========
-    @GetMapping(value = "/top15dias")
-    public ResponseEntity<List<TopMissoesResponse>> topMissoes15Dias() {
+    @GetMapping(value = "/top") // TODO adicionar validação/range de dias (min = 3 e max = 90)
+    public ResponseEntity<List<TopMissoesResponse>> topMissoes15Dias(
+            @RequestParam(name = "dias", defaultValue = "15") int dias
+    ) {
         return ResponseEntity.ok()
-                .body(missaoService.topMissoes15Dias());
+                .body(painelTaticoMissaoService.topMissoesDias(dias));
     }
 
     // ================
