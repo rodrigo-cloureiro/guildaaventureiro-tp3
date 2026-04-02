@@ -8,13 +8,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(
         name = "participacao_missao",
-        schema = "aventura",
+        schema = "operacoes",
         indexes = {
                 @Index(name = "idx_participacao_missao_aventureiro", columnList = "aventureiro_id")
         }
@@ -46,14 +47,14 @@ public class ParticipacaoMissao {
     private Aventureiro aventureiro;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "papel_missao", nullable = false)
-    private PapelMissao papel;
+    @Column(name = "papel", nullable = false)
+    private PapelMissao papelMissao;
 
     @Min(value = 0, message = "A recompensa em ouro deve ser maior ou igual a zero")
-    @Column(name = "recompensa_em_ouro", nullable = true)
-    private Integer recompensaEmOuro = 0;
+    @Column(name = "recompensa_ouro", precision = 10, scale = 2, nullable = true)
+    private BigDecimal recompensaOuro = BigDecimal.ZERO;
 
-    @Column(nullable = false)
+    @Column(name = "destaque", nullable = false)
     private boolean mvp = false;
 
     @CreationTimestamp
@@ -66,18 +67,18 @@ public class ParticipacaoMissao {
     public ParticipacaoMissao(Missao missao, Aventureiro aventureiro, PapelMissao papelMissao) {
         this.missao = missao;
         this.aventureiro = Objects.requireNonNull(aventureiro, "O aventureiro é obrigatório");
-        this.papel = Objects.requireNonNull(papelMissao, "O papel do aventureiro na missão é obrigatório");
+        this.papelMissao = Objects.requireNonNull(papelMissao, "O papel do aventureiro na missão é obrigatório");
     }
 
     void definirMvp() {
         this.mvp = true;
     }
 
-    public void recompensar(int recompensa) {
-        if (recompensa <= 0) {
+    public void recompensar(BigDecimal recompensa) {
+        if (recompensa.compareTo(BigDecimal.ZERO) <= 0) {
             throw new BusinessException("Recompensa deve ser um valor positivo");
         }
 
-        this.recompensaEmOuro += recompensa;
+        this.recompensaOuro = this.recompensaOuro.add(recompensa);
     }
 }
