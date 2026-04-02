@@ -3,12 +3,14 @@ package br.com.infnet.guildaaventureiro.dto.aventureiro;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.AventureiroClasse;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.PapelMissao;
 
+import java.math.BigDecimal;
+
 public record AventureiroMissaoResponse(
         String nome,
         AventureiroClasse classe,
         int nivel,
         PapelMissao papelNaMissao,
-        Integer valorRecompensaRecebida,
+        BigDecimal valorRecompensaRecebida,
         Boolean destaque
 ) {
 }
