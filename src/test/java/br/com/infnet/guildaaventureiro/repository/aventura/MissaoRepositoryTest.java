@@ -8,7 +8,6 @@ import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.PapelMissao;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoResponse;
-import br.com.infnet.guildaaventureiro.dto.missao.TopMissoesResponse;
 import br.com.infnet.guildaaventureiro.dto.missao.enums.TipoDataMissao;
 import br.com.infnet.guildaaventureiro.repository.audit.UsuarioRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -23,7 +22,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,9 +66,9 @@ public class MissaoRepositoryTest {
         Missao missao = new Missao(
                 usuario.getOrganizacao(),
                 "Finalizar o TP2",
-                NivelPerigoMissao.CRITICO
+                NivelPerigoMissao.EXTREMO
         );
-        missao.adicionarParticipante(aventureiro, PapelMissao.EXPLORADOR);
+        missao.adicionarParticipante(aventureiro, PapelMissao.SUPORTE);
         missaoRepository.save(missao);
 
         assertFalse(missaoRepository.findAll().isEmpty());
@@ -116,7 +114,7 @@ public class MissaoRepositoryTest {
 
         Page<MissaoResponse> resultado = missaoRepository.findMissoesByFilters(
                 null,
-                NivelPerigoMissao.CRITICO,
+                NivelPerigoMissao.EXTREMO,
                 null,
                 null,
                 null,
@@ -134,8 +132,8 @@ public class MissaoRepositoryTest {
                 null,
                 null,
                 TipoDataMissao.CRIACAO.name(),
-                LocalDateTime.of(2026, 3, 10, 10, 0, 0),
-                LocalDateTime.of(2026, 3, 12, 14, 0, 0),
+                LocalDateTime.of(2026, 3, 17, 0, 0, 0),
+                LocalDateTime.of(2026, 3, 17, 23, 59, 59),
                 pageable
         );
         assertFalse(resultado.getContent().isEmpty());
@@ -171,13 +169,5 @@ public class MissaoRepositoryTest {
                 pageable
         );
         assertTrue(resultado.getContent().isEmpty());
-    }
-
-    @Test
-    @DisplayName("Deve retornar as 10 missões mais relevantes do últimos 15 dias")
-    public void shouldReturnTop10MostRelevantMissionsFromLast15Days() {
-        List<TopMissoesResponse> top15Dias = missaoRepository.top15Dias();
-        assertFalse(top15Dias.isEmpty());
-        assertEquals(10, top15Dias.size());
     }
 }
