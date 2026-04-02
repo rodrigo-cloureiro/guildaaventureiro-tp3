@@ -18,18 +18,18 @@ import java.util.Set;
 
 @Entity
 @Table(
-        name = "aventureiros",
-        schema = "aventura",
+        name = "aventureiro",
+        schema = "operacoes",
         check = {
                 /*@CheckConstraint(
                         name = "ck_aventureiros_classe",
                         constraint = "classe IN ('GUERREIRO', 'MAGO', 'ARQUEIRO', 'CLERIGO', 'LADINO')"
                 ),*/
-                @CheckConstraint(name = "ck_aventureiros_nivel", constraint = "nivel >= 1")
+                @CheckConstraint(name = "aventureiro_nivel_check", constraint = "nivel >= 1")
         },
         indexes = {
                 @Index(
-                        name = "idx_aventureiros_org_classe_nivel",
+                        name = "idx_aventureiro_org_classe_nivel",
                         columnList = "organizacao_id, classe, nivel"
                 ),
         }
@@ -38,11 +38,11 @@ import java.util.Set;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Aventureiro {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aventureiros_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aventureiro_id")
     @SequenceGenerator(
-            name = "aventureiros_id",
-            sequenceName = "aventureiros_id_seq",
-            schema = "aventura",
+            name = "aventureiro_id",
+            sequenceName = "aventureiro_id_seq",
+            schema = "operacoes",
             allocationSize = 1
     )
     @EqualsAndHashCode.Include
@@ -58,7 +58,7 @@ public class Aventureiro {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
-            name = "usuario_id",
+            name = "usuario_cadastro_id",
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_aventureiros_usuario")
     )
