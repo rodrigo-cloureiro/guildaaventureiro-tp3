@@ -27,8 +27,8 @@ public interface ParticipacaoMissaoRepository extends JpaRepository<Participacao
             SELECT pm
             FROM ParticipacaoMissao pm
             WHERE pm.missao.id = :missaoId AND
-            pm.recompensaEmOuro = (
-                        SELECT MAX(pm2.recompensaEmOuro)
+            pm.recompensaOuro = (
+                        SELECT MAX(pm2.recompensaOuro)
                         FROM ParticipacaoMissao pm2
                         WHERE pm2.missao.id = :missaoId
                         )
@@ -40,8 +40,8 @@ public interface ParticipacaoMissaoRepository extends JpaRepository<Participacao
                         a.nome,
                         a.classe,
                         a.nivel,
-                        pm.papel,
-                        pm.recompensaEmOuro,
+                        pm.papelMissao,
+                        pm.recompensaOuro,
                         pm.mvp
             )
             FROM ParticipacaoMissao pm
@@ -54,7 +54,7 @@ public interface ParticipacaoMissaoRepository extends JpaRepository<Participacao
             SELECT new br.com.infnet.guildaaventureiro.dto.relatorio.RankingParticipacao(
                         a.nome,
                         COUNT(pm.missao.id),
-                        SUM(pm.recompensaEmOuro),
+                        SUM(pm.recompensaOuro),
                         SUM(CASE WHEN pm.mvp = true THEN 1 ELSE 0 END)
                     )
             FROM ParticipacaoMissao pm
@@ -63,7 +63,7 @@ public interface ParticipacaoMissaoRepository extends JpaRepository<Participacao
             AND pm.missao.dataInicio >= :inicio
             AND (pm.missao.dataTermino <= :termino OR pm.missao.dataTermino IS NULL)
             GROUP BY a.id, a.nome
-            ORDER BY SUM(pm.recompensaEmOuro) DESC NULLS LAST,
+            ORDER BY SUM(pm.recompensaOuro) DESC NULLS LAST,
                      SUM(CASE WHEN pm.mvp = true THEN 1 ELSE 0 END) DESC,
                      COUNT(pm.missao.id) DESC
             """)
@@ -79,7 +79,7 @@ public interface ParticipacaoMissaoRepository extends JpaRepository<Participacao
                         m.status,
                         m.nivelPerigo,
                         COUNT(pm.missao.id),
-                        SUM(pm.recompensaEmOuro)
+                        SUM(pm.recompensaOuro)
             )
             FROM ParticipacaoMissao pm
             LEFT JOIN pm.missao m
