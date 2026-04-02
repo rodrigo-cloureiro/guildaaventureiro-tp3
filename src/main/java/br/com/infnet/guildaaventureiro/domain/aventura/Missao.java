@@ -18,21 +18,21 @@ import java.util.*;
 
 @Entity
 @Table(
-        name = "missoes",
-        schema = "aventura",
+        name = "missao",
+        schema = "operacoes",
         indexes = {
-                @Index(name = "idx_missoes_nivel_status", columnList = "nivel_perigo, status")
+                @Index(name = "idx_missao_nivel_status", columnList = "nivel_perigo, status")
         }
 )
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Missao {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "missoes_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "missao_id")
     @SequenceGenerator(
-            name = "missoes_id",
-            sequenceName = "missoes_id_seq",
-            schema = "aventura",
+            name = "missao_id",
+            sequenceName = "missao_id_seq",
+            schema = "operacoes",
             allocationSize = 1
     )
     @EqualsAndHashCode.Include
@@ -72,7 +72,7 @@ public class Missao {
     @Column(name = "data_inicio", nullable = true, updatable = true)
     private LocalDateTime dataInicio;
 
-    @Column(name = "data_termino", nullable = true, updatable = true)
+    @Column(name = "data_fim", nullable = true, updatable = true)
     private LocalDateTime dataTermino;
 
     protected Missao() {
