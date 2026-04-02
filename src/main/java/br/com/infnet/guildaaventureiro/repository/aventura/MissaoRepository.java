@@ -4,7 +4,6 @@ import br.com.infnet.guildaaventureiro.domain.aventura.Missao;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoResponse;
-import br.com.infnet.guildaaventureiro.dto.missao.TopMissoesResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +12,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Repository
 public interface MissaoRepository extends JpaRepository<Missao, Long> {
@@ -37,25 +35,4 @@ public interface MissaoRepository extends JpaRepository<Missao, Long> {
             @Param("ate") LocalDateTime ate,
             Pageable pageable
     );
-
-    @Query(value = """
-            SELECT new br.com.infnet.guildaaventureiro.dto.missao.TopMissoesResponse(
-                        ptm.missaoId,
-                        ptm.titulo,
-                        ptm.status,
-                        ptm.nivelPerigo,
-                        ptm.organizacaoId,
-                        ptm.totalParticipantes,
-                        ptm.nivelMedioEquipe,
-                        ptm.totalRecompensa,
-                        ptm.totalMvps,
-                        ptm.participantesComCompanheiros,
-                        ptm.ultimaAtualizacao,
-                        ptm.indiceProntidao
-                        )
-            FROM PainelTaticoMissao ptm
-            ORDER BY ptm.indiceProntidao DESC
-            LIMIT 10
-            """)
-    List<TopMissoesResponse> top15Dias();
 }

@@ -65,13 +65,6 @@ public class MissaoService {
         return new MissaoDetailedResponse(MissaoMapper.toResponse(missao), participantes);
     }
 
-    // ===========
-    // Top 15 dias
-    // ===========
-    public List<TopMissoesResponse> topMissoes15Dias() {
-        return missaoRepository.top15Dias();
-    }
-
     // ================
     // Registrar missão
     // ================
