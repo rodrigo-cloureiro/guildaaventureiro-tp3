@@ -12,7 +12,7 @@ public record CompanheiroResponse(
         this(
                 companheiro.getNome(),
                 companheiro.getEspecie(),
-                companheiro.getLealdade()
+                companheiro.getIndiceLealdade()
         );
     }
 }
