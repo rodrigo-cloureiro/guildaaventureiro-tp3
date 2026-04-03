@@ -18,9 +18,12 @@ public class PainelTaticoMissaoService {
     // Top X dias
     // ===========
     public List<TopMissoesResponse> topMissoesDias(TopMissoesRequest dto) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime cutoffDate = now.minusDays(dto.dias());
+        int dias = dto.dias() != null ? dto.dias() : 15;
+        int limite = dto.limite() != null ? dto.limite() : 10;
 
-        return painelTaticoMissaoRepository.topMissoesDias(cutoffDate, now, dto.limite());
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime cutoffDate = now.minusDays(dias);
+
+        return painelTaticoMissaoRepository.topMissoesDias(cutoffDate, now, limite);
     }
 }

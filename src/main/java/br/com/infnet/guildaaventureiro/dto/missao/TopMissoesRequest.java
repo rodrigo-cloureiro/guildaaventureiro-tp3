@@ -8,8 +8,4 @@ public record TopMissoesRequest(
         @Range(min = 3, max = 20, message = "O limite de resultados deve estar entre 3 e 20")
         Integer limite
 ) {
-    public TopMissoesRequest {
-        if (dias == null) dias = 15;
-        if (limite == null) limite = 10;
-    }
 }
