@@ -10,7 +10,7 @@ import br.com.infnet.guildaaventureiro.dto.missao.MissaoCreate;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroMissaoResponse;
 import br.com.infnet.guildaaventureiro.dto.PagedResponse;
 import br.com.infnet.guildaaventureiro.dto.missao.*;
-import br.com.infnet.guildaaventureiro.exception.operacoes.BusinessException;
+import br.com.infnet.guildaaventureiro.exception.BusinessException;
 import br.com.infnet.guildaaventureiro.mapper.MissaoMapper;
 import br.com.infnet.guildaaventureiro.repository.operacoes.MissaoRepository;
 import br.com.infnet.guildaaventureiro.repository.operacoes.ParticipacaoMissaoRepository;

@@ -1,4 +1,4 @@
-package br.com.infnet.guildaaventureiro.exception.operacoes;
+package br.com.infnet.guildaaventureiro.exception;
 
 public class BusinessException extends RuntimeException {
     public BusinessException(String message) {

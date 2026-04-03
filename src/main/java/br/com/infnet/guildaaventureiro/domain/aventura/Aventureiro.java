@@ -3,7 +3,7 @@ package br.com.infnet.guildaaventureiro.domain.aventura;
 import br.com.infnet.guildaaventureiro.domain.audit.Organizacao;
 import br.com.infnet.guildaaventureiro.domain.audit.Usuario;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.AventureiroClasse;
-import br.com.infnet.guildaaventureiro.exception.operacoes.BusinessException;
+import br.com.infnet.guildaaventureiro.exception.BusinessException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;

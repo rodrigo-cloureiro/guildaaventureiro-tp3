@@ -1,7 +1,7 @@
 package br.com.infnet.guildaaventureiro.advice;
 
 import br.com.infnet.guildaaventureiro.dto.ErrorResponse;
-import br.com.infnet.guildaaventureiro.exception.operacoes.*;
+import br.com.infnet.guildaaventureiro.exception.BusinessException;
 import jakarta.persistence.EntityNotFoundException;
 import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatus;
