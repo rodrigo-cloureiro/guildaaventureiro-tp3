@@ -2,7 +2,8 @@ package br.com.infnet.guildaaventureiro.repository.operacoes;
 
 import br.com.infnet.guildaaventureiro.dto.missao.TopMissoesResponse;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
@@ -10,7 +11,6 @@ import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabas
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -19,15 +19,21 @@ public class PainelTaticoMissaoRepositoryTest {
     @Autowired
     private PainelTaticoMissaoRepository painelTaticoMissaoRepository;
 
-    @Test
-    @DisplayName("Deve retornar as 10 missões mais relevantes do últimos 15 dias")
-    public void shouldReturnTop10MostRelevantMissionsFromLast15Days() {
+    @ParameterizedTest
+    @CsvSource(value = {
+            "10, 15",
+            "10, 20",
+            "3, 15",
+            "3, 20"
+    })
+    @DisplayName("Deve retornar as X missões mais relevantes do últimos Y dias")
+    public void shouldReturnTopMostRelevantMissionsFromLastDays(int limite, int dias) {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime cutoffDate = now.minusDays(15);
+        LocalDateTime cutoffDate = now.minusDays(dias);
 
-        List<TopMissoesResponse> top15Dias = painelTaticoMissaoRepository.top15Dias(cutoffDate, now);
-        assertFalse(top15Dias.isEmpty());
-        assertTrue(top15Dias.stream().allMatch(m ->
+        List<TopMissoesResponse> topMissoesDias = painelTaticoMissaoRepository.topMissoesDias(cutoffDate, now, limite);
+        assertTrue(topMissoesDias.size() <= limite);
+        assertTrue(topMissoesDias.stream().allMatch(m ->
                         !m.ultimaAtualizacao().isBefore(cutoffDate) && !m.ultimaAtualizacao().isAfter(now)
                 )
         );
