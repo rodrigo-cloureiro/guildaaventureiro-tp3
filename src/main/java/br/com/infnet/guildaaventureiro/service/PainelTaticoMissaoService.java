@@ -1,5 +1,6 @@
 package br.com.infnet.guildaaventureiro.service;
 
+import br.com.infnet.guildaaventureiro.dto.missao.TopMissoesRequest;
 import br.com.infnet.guildaaventureiro.dto.missao.TopMissoesResponse;
 import br.com.infnet.guildaaventureiro.repository.operacoes.PainelTaticoMissaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +17,10 @@ public class PainelTaticoMissaoService {
     // ===========
     // Top X dias
     // ===========
-    public List<TopMissoesResponse> topMissoesDias(int dias, int limite) {
+    public List<TopMissoesResponse> topMissoesDias(TopMissoesRequest dto) {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime cutoffDate = now.minusDays(dias);
+        LocalDateTime cutoffDate = now.minusDays(dto.dias());
 
-        return painelTaticoMissaoRepository.topMissoesDias(cutoffDate, now, limite);
+        return painelTaticoMissaoRepository.topMissoesDias(cutoffDate, now, dto.limite());
     }
 }
