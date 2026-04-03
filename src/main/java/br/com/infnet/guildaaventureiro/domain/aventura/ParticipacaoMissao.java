@@ -1,7 +1,7 @@
 package br.com.infnet.guildaaventureiro.domain.aventura;
 
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.PapelMissao;
-import br.com.infnet.guildaaventureiro.exception.aventura.BusinessException;
+import br.com.infnet.guildaaventureiro.exception.operacoes.BusinessException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.EqualsAndHashCode;
