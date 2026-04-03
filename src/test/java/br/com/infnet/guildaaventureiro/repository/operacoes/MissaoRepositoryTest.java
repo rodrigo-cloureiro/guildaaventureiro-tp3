@@ -1,4 +1,4 @@
-package br.com.infnet.guildaaventureiro.repository.aventura;
+package br.com.infnet.guildaaventureiro.repository.operacoes;
 
 import br.com.infnet.guildaaventureiro.domain.audit.Usuario;
 import br.com.infnet.guildaaventureiro.domain.aventura.Aventureiro;
@@ -10,6 +10,9 @@ import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoResponse;
 import br.com.infnet.guildaaventureiro.dto.missao.enums.TipoDataMissao;
 import br.com.infnet.guildaaventureiro.repository.audit.UsuarioRepository;
+import br.com.infnet.guildaaventureiro.repository.aventura.AventureiroRepository;
+import br.com.infnet.guildaaventureiro.repository.aventura.MissaoRepository;
+import br.com.infnet.guildaaventureiro.repository.aventura.ParticipacaoMissaoRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
