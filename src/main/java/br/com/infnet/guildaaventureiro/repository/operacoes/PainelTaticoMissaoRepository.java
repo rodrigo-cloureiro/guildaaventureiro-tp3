@@ -30,10 +30,11 @@ public interface PainelTaticoMissaoRepository extends JpaRepository<PainelTatico
             FROM PainelTaticoMissao ptm
             WHERE ptm.ultimaAtualizacao BETWEEN :de AND :ate
             ORDER BY ptm.indiceProntidao DESC NULLS LAST
-            LIMIT 10
+            LIMIT :limite
             """)
-    List<TopMissoesResponse> top15Dias(
+    List<TopMissoesResponse> topMissoesDias(
             @Param("de") LocalDateTime de,
-            @Param("ate") LocalDateTime ate
-    ); // TODO verificar compatibilidade do LIMIT (substituir por Pageable?)
+            @Param("ate") LocalDateTime ate,
+            @Param("limite") int limite
+    );
 }

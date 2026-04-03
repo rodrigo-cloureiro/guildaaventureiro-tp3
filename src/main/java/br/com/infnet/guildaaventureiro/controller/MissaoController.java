@@ -54,10 +54,11 @@ public class MissaoController {
     // ===========
     @GetMapping(value = "/top") // TODO adicionar validação/range de dias (min = 3 e max = 90)
     public ResponseEntity<List<TopMissoesResponse>> topMissoes15Dias(
-            @RequestParam(name = "dias", defaultValue = "15") int dias
+            @RequestParam(name = "dias", defaultValue = "15") int dias,
+            @RequestParam(name = "limite", defaultValue = "10") int limite
     ) {
         return ResponseEntity.ok()
-                .body(painelTaticoMissaoService.topMissoesDias(dias));
+                .body(painelTaticoMissaoService.topMissoesDias(dias, limite));
     }
 
     // ================
