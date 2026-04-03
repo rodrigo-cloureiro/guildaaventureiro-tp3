@@ -4,6 +4,8 @@ import br.com.infnet.guildaaventureiro.dto.missao.TopMissoesRequest;
 import br.com.infnet.guildaaventureiro.dto.missao.TopMissoesResponse;
 import br.com.infnet.guildaaventureiro.repository.operacoes.PainelTaticoMissaoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,10 @@ public class PainelTaticoMissaoService {
     // ===========
     // Top X dias
     // ===========
+    @Cacheable(
+            cacheNames = "topMissoes",
+            key = "#dto.dias() + '-' + #dto.limite()"
+    )
     public List<TopMissoesResponse> topMissoesDias(TopMissoesRequest dto) {
         int dias = dto.dias() != null ? dto.dias() : 15;
         int limite = dto.limite() != null ? dto.limite() : 10;
@@ -25,5 +31,12 @@ public class PainelTaticoMissaoService {
         LocalDateTime cutoffDate = now.minusDays(dias);
 
         return painelTaticoMissaoRepository.topMissoesDias(cutoffDate, now, limite);
+    }
+
+    @CacheEvict(
+            cacheNames = "topMissoes",
+            allEntries = true
+    )
+    public void evictCache() {
     }
 }
