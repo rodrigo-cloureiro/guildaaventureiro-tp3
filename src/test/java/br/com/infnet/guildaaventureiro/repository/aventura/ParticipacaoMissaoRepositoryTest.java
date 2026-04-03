@@ -1,11 +1,22 @@
 package br.com.infnet.guildaaventureiro.repository.aventura;
 
+import br.com.infnet.guildaaventureiro.domain.audit.Organizacao;
+import br.com.infnet.guildaaventureiro.domain.audit.Usuario;
+import br.com.infnet.guildaaventureiro.domain.audit.enums.UsuarioStatus;
+import br.com.infnet.guildaaventureiro.domain.aventura.Aventureiro;
 import br.com.infnet.guildaaventureiro.domain.aventura.Missao;
+import br.com.infnet.guildaaventureiro.domain.aventura.enums.AventureiroClasse;
+import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
+import br.com.infnet.guildaaventureiro.domain.aventura.enums.PapelMissao;
 import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroMissaoResponse;
 import br.com.infnet.guildaaventureiro.dto.relatorio.RankingParticipacao;
 
 import br.com.infnet.guildaaventureiro.dto.relatorio.RelatorioMissao;
+import br.com.infnet.guildaaventureiro.repository.audit.OrganizacaoRepository;
+import br.com.infnet.guildaaventureiro.repository.audit.UsuarioRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +35,52 @@ public class ParticipacaoMissaoRepositoryTest {
     private ParticipacaoMissaoRepository participacaoMissaoRepository;
     @Autowired
     private MissaoRepository missaoRepository;
+    @Autowired
+    private AventureiroRepository aventureiroRepository;
+    @Autowired
+    private OrganizacaoRepository organizacaoRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    private Aventureiro aventureiro;
+    private Organizacao organizacao;
+    private Usuario usuario;
+    private Missao missao;
+    private Missao missaoSemParticipante;
+
+    @BeforeEach
+    public void setUp() {
+        this.aventureiro = new Aventureiro("RD", AventureiroClasse.GUERREIRO, 26);
+        this.organizacao = new Organizacao("Instituto Infnet");
+        this.organizacao.adicionarAventureiro(this.aventureiro);
+        this.usuario = new Usuario(
+                this.organizacao,
+                "RCL",
+                "rcl@email.com",
+                "1@b#",
+                UsuarioStatus.ATIVO
+        );
+        this.usuario.adicionarAventureiro(this.aventureiro);
+        this.missao = new Missao(organizacao, "DR1 TP3", NivelPerigoMissao.ALTO);
+        this.missaoSemParticipante = new Missao(organizacao, "DR1 AT", NivelPerigoMissao.EXTREMO);
+
+        organizacaoRepository.save(this.organizacao);
+        usuarioRepository.save(this.usuario);
+        aventureiroRepository.save(this.aventureiro);
+        missaoRepository.save(this.missao);
+        missaoRepository.save(this.missaoSemParticipante);
+
+        this.missao.adicionarParticipante(this.aventureiro, PapelMissao.LIDER);
+        this.missao.iniciarMissao();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        if (this.aventureiro != null) this.aventureiro = null;
+        if (this.organizacao != null) this.organizacao = null;
+        if (this.usuario != null) this.usuario = null;
+        if (this.missao != null) this.missao = null;
+    }
 
     @Test
     @DisplayName("Deve retornar ranking quando há participações no período")
@@ -34,6 +91,9 @@ public class ParticipacaoMissaoRepositoryTest {
                 LocalDateTime.now()
         );
         assertFalse(resultado.isEmpty());
+
+        RankingParticipacao ranking = resultado.getFirst();
+        assertTrue(ranking.participacoes() > 0);
     }
 
     @Test
@@ -72,9 +132,9 @@ public class ParticipacaoMissaoRepositoryTest {
     @Test
     @DisplayName("Deve retornar a missão corretamente e lista vazia de participantes quando não há participantes")
     public void shouldReturnEmptyListWhenMissionHasNoParticipants() {
-        Missao missao = missaoRepository.findById(12L).orElseThrow();
+        Missao missao = missaoRepository.findById(this.missaoSemParticipante.getId()).orElseThrow();
         List<AventureiroMissaoResponse> participantes = participacaoMissaoRepository
-                .findParticipantesByMissaoId(12L);
+                .findParticipantesByMissaoId(this.missaoSemParticipante.getId());
 
         assertNotNull(missao);
         assertTrue(participantes.isEmpty());
