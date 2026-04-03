@@ -9,7 +9,6 @@ import br.com.infnet.guildaaventureiro.domain.aventura.enums.CompanheiroEspecie;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroMinimalResponse;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroResponse;
 import br.com.infnet.guildaaventureiro.repository.audit.UsuarioRepository;
-import br.com.infnet.guildaaventureiro.repository.aventura.AventureiroRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

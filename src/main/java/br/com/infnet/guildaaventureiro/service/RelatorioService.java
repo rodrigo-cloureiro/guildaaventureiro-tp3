@@ -5,7 +5,7 @@ import br.com.infnet.guildaaventureiro.dto.relatorio.RankingPartipacaoFiltroRequ
 import br.com.infnet.guildaaventureiro.dto.relatorio.RelatorioMissao;
 import br.com.infnet.guildaaventureiro.dto.relatorio.RelatorioMissaoFiltroRequest;
 import br.com.infnet.guildaaventureiro.exception.operacoes.BusinessException;
-import br.com.infnet.guildaaventureiro.repository.aventura.ParticipacaoMissaoRepository;
+import br.com.infnet.guildaaventureiro.repository.operacoes.ParticipacaoMissaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
