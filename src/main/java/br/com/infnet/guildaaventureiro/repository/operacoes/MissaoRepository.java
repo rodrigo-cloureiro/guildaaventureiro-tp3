@@ -1,8 +1,8 @@
 package br.com.infnet.guildaaventureiro.repository.operacoes;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.Missao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Missao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.NivelPerigoMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.StatusMissao;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

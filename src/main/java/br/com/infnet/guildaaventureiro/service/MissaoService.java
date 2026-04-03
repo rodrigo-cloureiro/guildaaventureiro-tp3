@@ -1,10 +1,10 @@
 package br.com.infnet.guildaaventureiro.service;
 
 import br.com.infnet.guildaaventureiro.domain.audit.Organizacao;
-import br.com.infnet.guildaaventureiro.domain.aventura.Aventureiro;
-import br.com.infnet.guildaaventureiro.domain.aventura.Missao;
-import br.com.infnet.guildaaventureiro.domain.aventura.ParticipacaoMissao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Aventureiro;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Missao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.ParticipacaoMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.StatusMissao;
 import br.com.infnet.guildaaventureiro.dto.AdicionarParticipanteMissao;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoCreate;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroMissaoResponse;

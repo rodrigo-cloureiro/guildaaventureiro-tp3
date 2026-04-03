@@ -1,6 +1,6 @@
-package br.com.infnet.guildaaventureiro.domain.aventura;
+package br.com.infnet.guildaaventureiro.domain.operacoes;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.CompanheiroEspecie;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.CompanheiroEspecie;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

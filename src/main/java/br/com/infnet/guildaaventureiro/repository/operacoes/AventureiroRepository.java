@@ -1,7 +1,7 @@
 package br.com.infnet.guildaaventureiro.repository.operacoes;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.Aventureiro;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.AventureiroClasse;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Aventureiro;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.AventureiroClasse;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroMinimalResponse;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroResponse;
 import org.springframework.data.domain.Page;

@@ -1,6 +1,6 @@
-package br.com.infnet.guildaaventureiro.domain.aventura;
+package br.com.infnet.guildaaventureiro.domain.operacoes;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.PapelMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.PapelMissao;
 import br.com.infnet.guildaaventureiro.exception.BusinessException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;

@@ -1,7 +1,7 @@
 package br.com.infnet.guildaaventureiro.dto.relatorio;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.NivelPerigoMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.StatusMissao;
 
 import java.math.BigDecimal;
 

@@ -1,9 +1,9 @@
-package br.com.infnet.guildaaventureiro.domain.aventura;
+package br.com.infnet.guildaaventureiro.domain.operacoes;
 
 import br.com.infnet.guildaaventureiro.domain.audit.Organizacao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.PapelMissao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.NivelPerigoMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.PapelMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.StatusMissao;
 import br.com.infnet.guildaaventureiro.exception.AventureiroInativoException;
 import br.com.infnet.guildaaventureiro.exception.BusinessException;
 import br.com.infnet.guildaaventureiro.exception.MissaoNaoAceitaParticipantesException;

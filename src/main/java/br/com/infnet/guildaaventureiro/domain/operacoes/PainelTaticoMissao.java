@@ -1,7 +1,7 @@
 package br.com.infnet.guildaaventureiro.domain.operacoes;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.NivelPerigoMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.StatusMissao;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Immutable;
 

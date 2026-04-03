@@ -1,6 +1,6 @@
 package br.com.infnet.guildaaventureiro.dto.missao;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.NivelPerigoMissao;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

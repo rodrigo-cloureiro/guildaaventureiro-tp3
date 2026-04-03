@@ -1,7 +1,7 @@
 package br.com.infnet.guildaaventureiro.mapper;
 
 import br.com.infnet.guildaaventureiro.domain.audit.Organizacao;
-import br.com.infnet.guildaaventureiro.domain.aventura.Missao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Missao;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoCreate;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoMinimalResponse;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoResponse;

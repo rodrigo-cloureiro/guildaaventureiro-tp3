@@ -1,6 +1,6 @@
 package br.com.infnet.guildaaventureiro.dto;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.PapelMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.PapelMissao;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 

@@ -1,8 +1,7 @@
 package br.com.infnet.guildaaventureiro.domain.audit;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.Aventureiro;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Aventureiro;
 import br.com.infnet.guildaaventureiro.domain.audit.enums.UsuarioStatus;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.AventureiroClasse;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

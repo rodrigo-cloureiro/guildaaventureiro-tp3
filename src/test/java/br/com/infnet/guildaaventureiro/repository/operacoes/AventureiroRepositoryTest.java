@@ -2,10 +2,10 @@ package br.com.infnet.guildaaventureiro.repository.operacoes;
 
 import br.com.infnet.guildaaventureiro.domain.audit.Organizacao;
 import br.com.infnet.guildaaventureiro.domain.audit.Usuario;
-import br.com.infnet.guildaaventureiro.domain.aventura.Aventureiro;
-import br.com.infnet.guildaaventureiro.domain.aventura.Companheiro;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.AventureiroClasse;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.CompanheiroEspecie;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Aventureiro;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Companheiro;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.AventureiroClasse;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.CompanheiroEspecie;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroMinimalResponse;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroResponse;
 import br.com.infnet.guildaaventureiro.repository.audit.UsuarioRepository;

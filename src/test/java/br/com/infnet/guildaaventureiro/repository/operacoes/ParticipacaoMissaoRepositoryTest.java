@@ -3,12 +3,12 @@ package br.com.infnet.guildaaventureiro.repository.operacoes;
 import br.com.infnet.guildaaventureiro.domain.audit.Organizacao;
 import br.com.infnet.guildaaventureiro.domain.audit.Usuario;
 import br.com.infnet.guildaaventureiro.domain.audit.enums.UsuarioStatus;
-import br.com.infnet.guildaaventureiro.domain.aventura.Aventureiro;
-import br.com.infnet.guildaaventureiro.domain.aventura.Missao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.AventureiroClasse;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.NivelPerigoMissao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.PapelMissao;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Aventureiro;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Missao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.AventureiroClasse;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.NivelPerigoMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.PapelMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.StatusMissao;
 import br.com.infnet.guildaaventureiro.dto.aventureiro.AventureiroMissaoResponse;
 import br.com.infnet.guildaaventureiro.dto.relatorio.RankingParticipacao;
 

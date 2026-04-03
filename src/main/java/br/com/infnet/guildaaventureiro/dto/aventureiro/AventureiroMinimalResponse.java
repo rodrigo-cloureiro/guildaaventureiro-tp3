@@ -1,7 +1,7 @@
 package br.com.infnet.guildaaventureiro.dto.aventureiro;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.Aventureiro;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.AventureiroClasse;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Aventureiro;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.AventureiroClasse;
 
 public record AventureiroMinimalResponse(
         Long id,

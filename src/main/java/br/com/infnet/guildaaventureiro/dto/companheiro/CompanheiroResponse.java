@@ -1,7 +1,7 @@
 package br.com.infnet.guildaaventureiro.dto.companheiro;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.Companheiro;
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.CompanheiroEspecie;
+import br.com.infnet.guildaaventureiro.domain.operacoes.Companheiro;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.CompanheiroEspecie;
 
 public record CompanheiroResponse(
         String nome,

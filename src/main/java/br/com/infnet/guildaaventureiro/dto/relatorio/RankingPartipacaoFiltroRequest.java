@@ -1,6 +1,6 @@
 package br.com.infnet.guildaaventureiro.dto.relatorio;
 
-import br.com.infnet.guildaaventureiro.domain.aventura.enums.StatusMissao;
+import br.com.infnet.guildaaventureiro.domain.operacoes.enums.StatusMissao;
 import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDateTime;

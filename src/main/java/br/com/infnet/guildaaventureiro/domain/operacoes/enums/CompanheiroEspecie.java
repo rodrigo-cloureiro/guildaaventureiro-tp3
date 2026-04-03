@@ -1,4 +1,4 @@
-package br.com.infnet.guildaaventureiro.domain.aventura.enums;
+package br.com.infnet.guildaaventureiro.domain.operacoes.enums;
 
 public enum CompanheiroEspecie {
     LOBO,
