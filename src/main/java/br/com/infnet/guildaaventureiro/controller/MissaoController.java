@@ -1,6 +1,6 @@
 package br.com.infnet.guildaaventureiro.controller;
 
-import br.com.infnet.guildaaventureiro.dto.AdicionarParticipanteMissao;
+import br.com.infnet.guildaaventureiro.dto.missao.AdicionarParticipanteMissao;
 import br.com.infnet.guildaaventureiro.dto.missao.MissaoCreate;
 import br.com.infnet.guildaaventureiro.dto.PagedResponse;
 import br.com.infnet.guildaaventureiro.dto.missao.*;
