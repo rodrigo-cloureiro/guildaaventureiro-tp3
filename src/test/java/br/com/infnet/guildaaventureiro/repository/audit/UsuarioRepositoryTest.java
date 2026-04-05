@@ -3,10 +3,9 @@ package br.com.infnet.guildaaventureiro.repository.audit;
 import br.com.infnet.guildaaventureiro.domain.audit.Organizacao;
 import br.com.infnet.guildaaventureiro.domain.audit.Usuario;
 import br.com.infnet.guildaaventureiro.domain.audit.enums.UsuarioStatus;
+import br.com.infnet.guildaaventureiro.repository.BaseRepositoryTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +13,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UsuarioRepositoryTest {
+public class UsuarioRepositoryTest extends BaseRepositoryTest {
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired

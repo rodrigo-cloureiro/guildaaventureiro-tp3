@@ -1,21 +1,18 @@
 package br.com.infnet.guildaaventureiro.repository.operacoes;
 
+import br.com.infnet.guildaaventureiro.repository.BaseRepositoryTest;
 import br.com.infnet.guildaaventureiro.dto.missao.TopMissoesResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class PainelTaticoMissaoRepositoryTest {
+public class PainelTaticoMissaoRepositoryTest extends BaseRepositoryTest {
     @Autowired
     private PainelTaticoMissaoRepository painelTaticoMissaoRepository;
 

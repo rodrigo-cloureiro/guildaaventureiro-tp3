@@ -1,5 +1,6 @@
 package br.com.infnet.guildaaventureiro.repository.operacoes;
 
+import br.com.infnet.guildaaventureiro.repository.BaseRepositoryTest;
 import br.com.infnet.guildaaventureiro.domain.audit.Usuario;
 import br.com.infnet.guildaaventureiro.domain.operacoes.Aventureiro;
 import br.com.infnet.guildaaventureiro.domain.operacoes.Missao;
@@ -15,8 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +24,10 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class MissaoRepositoryTest {
+public class MissaoRepositoryTest extends BaseRepositoryTest {
+    // @MockitoBean
+    // private CacheManager cacheManager;
+
     @Autowired
     private MissaoRepository missaoRepository;
     @Autowired

@@ -1,5 +1,6 @@
 package br.com.infnet.guildaaventureiro.repository.operacoes;
 
+import br.com.infnet.guildaaventureiro.repository.BaseRepositoryTest;
 import br.com.infnet.guildaaventureiro.domain.audit.Organizacao;
 import br.com.infnet.guildaaventureiro.domain.audit.Usuario;
 import br.com.infnet.guildaaventureiro.domain.operacoes.Aventureiro;
@@ -14,17 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class AventureiroRepositoryTest {
+public class AventureiroRepositoryTest extends BaseRepositoryTest {
     @Autowired
     private AventureiroRepository aventureiroRepository;
     @Autowired
