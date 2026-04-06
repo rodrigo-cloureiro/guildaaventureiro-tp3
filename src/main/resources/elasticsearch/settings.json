@@ -1,0 +1,36 @@
+{
+  "index": {
+    "routing": {
+      "allocation": {
+        "include": {
+          "_tier_preference": "data_content"
+        }
+      }
+    },
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  },
+  "analysis": {
+    "filter": {
+      "portuguese_stemmer": {
+        "type": "stemmer",
+        "language": "portuguese"
+      },
+      "portuguese_stop": {
+        "type": "stop",
+        "stopwords": "_portuguese_"
+      }
+    },
+    "analyzer": {
+      "portuguese_custom": {
+        "filter": [
+          "lowercase",
+          "asciifolding",
+          "portuguese_stop",
+          "portuguese_stemmer"
+        ],
+        "tokenizer": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "categoria": {
+      "type": "keyword"
+    },
+    "descricao": {
+      "type": "text",
+      "analyzer": "portuguese_custom"
+    },
+    "nome": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      },
+      "analyzer": "portuguese_custom"
+    },
+    "preco": {
+      "type": "float"
+    },
+    "raridade": {
+      "type": "keyword"
+    }
+  }
+}
