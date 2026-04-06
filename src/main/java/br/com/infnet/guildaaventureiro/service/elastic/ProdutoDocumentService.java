@@ -2,9 +2,9 @@ package br.com.infnet.guildaaventureiro.service.elastic;
 
 import br.com.infnet.guildaaventureiro.domain.elastic.ProdutoDocument;
 import br.com.infnet.guildaaventureiro.dto.elastic.*;
+import br.com.infnet.guildaaventureiro.mapper.elastic.ProdutoDocumentMapper;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.aggregations.AggregationRange;
-import co.elastic.clients.elasticsearch._types.aggregations.RangeBucket;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -310,7 +309,7 @@ public class ProdutoDocumentService {
                     .buckets()
                     .array()
                     .stream()
-                    .map(this::bucketToFaixaPreco)
+                    .map(ProdutoDocumentMapper::bucketToFaixaPreco)
                     .toList();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -323,38 +322,6 @@ public class ProdutoDocumentService {
                 AggregationRange.of(a -> a.from(100.0).to(300.0).key("De 100 a 300")),
                 AggregationRange.of(a -> a.from(300.0).to(700.0).key("De 300 a 700")),
                 AggregationRange.of(a -> a.from(700.0).key("Acima de 700"))
-        );
-    }
-
-    // TODO mapper
-    private ProdutoResponse toProdutoResponse(ProdutoDocument document) {
-        return new ProdutoResponse(
-                document.getNome(),
-                document.getDescricao(),
-                document.getCategoria(),
-                document.getRaridade(),
-                document.getPreco()
-        );
-    }
-
-    // TODO mapper
-    private FaixaPreco bucketToFaixaPreco(RangeBucket bucket) {
-        List<ProdutoResponse> produtos = bucket.aggregations()
-                .get("produtos")
-                .topHits()
-                .hits()
-                .hits()
-                .stream()
-                .map(Hit::source)
-                .filter(Objects::nonNull)
-                .map(source -> source.to(ProdutoDocument.class))
-                .map(this::toProdutoResponse)
-                .toList();
-
-        return new FaixaPreco(
-                bucket.key(),
-                bucket.docCount(),
-                produtos
         );
     }
 }
