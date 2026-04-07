@@ -33,11 +33,7 @@ public class ProdutoDocumentService {
                     ), ProdutoDocument.class
             );
 
-            return response.hits()
-                    .hits()
-                    .stream()
-                    .map(Hit::source)
-                    .toList();
+            return extrairHitSources(response);
         } catch (IOException e) {
             throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
@@ -54,11 +50,7 @@ public class ProdutoDocumentService {
                     ), ProdutoDocument.class
             );
 
-            return response.hits()
-                    .hits()
-                    .stream()
-                    .map(Hit::source)
-                    .toList();
+            return extrairHitSources(response);
         } catch (IOException e) {
             throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
@@ -75,11 +67,7 @@ public class ProdutoDocumentService {
                     ), ProdutoDocument.class
             );
 
-            return response.hits()
-                    .hits()
-                    .stream()
-                    .map(Hit::source)
-                    .toList();
+            return extrairHitSources(response);
         } catch (IOException e) {
             throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
@@ -97,11 +85,7 @@ public class ProdutoDocumentService {
                     ), ProdutoDocument.class
             );
 
-            return response.hits()
-                    .hits()
-                    .stream()
-                    .map(Hit::source)
-                    .toList();
+            return extrairHitSources(response);
         } catch (IOException e) {
             throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
@@ -118,11 +102,7 @@ public class ProdutoDocumentService {
                     ), ProdutoDocument.class
             );
 
-            return response.hits()
-                    .hits()
-                    .stream()
-                    .map(Hit::source)
-                    .toList();
+            return extrairHitSources(response);
         } catch (IOException e) {
             throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
@@ -149,11 +129,7 @@ public class ProdutoDocumentService {
                     ), ProdutoDocument.class
             );
 
-            return response.hits()
-                    .hits()
-                    .stream()
-                    .map(Hit::source)
-                    .toList();
+            return extrairHitSources(response);
         } catch (IOException e) {
             throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
@@ -173,11 +149,7 @@ public class ProdutoDocumentService {
                     ), ProdutoDocument.class
             );
 
-            return response.hits()
-                    .hits()
-                    .stream()
-                    .map(Hit::source)
-                    .toList();
+            return extrairHitSources(response);
         } catch (IOException e) {
             throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
@@ -202,11 +174,7 @@ public class ProdutoDocumentService {
                     ), ProdutoDocument.class
             );
 
-            return response.hits()
-                    .hits()
-                    .stream()
-                    .map(Hit::source)
-                    .toList();
+            return extrairHitSources(response);
         } catch (IOException e) {
             throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
@@ -317,5 +285,13 @@ public class ProdutoDocumentService {
                 AggregationRange.of(a -> a.from(300.0).to(700.0).key("De 300 a 700")),
                 AggregationRange.of(a -> a.from(700.0).key("Acima de 700"))
         );
+    }
+
+    private List<ProdutoDocument> extrairHitSources(SearchResponse<ProdutoDocument> response) {
+        return response.hits()
+                .hits()
+                .stream()
+                .map(Hit::source)
+                .toList();
     }
 }
