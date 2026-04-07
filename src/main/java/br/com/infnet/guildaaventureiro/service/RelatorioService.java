@@ -25,8 +25,12 @@ public class RelatorioService {
     public List<RankingParticipacao> rankingParticipacao(RankingPartipacaoFiltroRequest filtro) {
         LocalDateTime now = LocalDateTime.now();
 
-        LocalDateTime inicio = filtro.inicio() == null ? now.minusDays(INTERVALO_DIAS_PADRAO) : filtro.inicio();
-        LocalDateTime termino = filtro.termino() == null ? now : filtro.termino();
+        LocalDateTime termino = filtro.termino() != null ?
+                filtro.termino() :
+                now;
+        LocalDateTime inicio = filtro.inicio() != null ?
+                filtro.inicio() :
+                termino.minusDays(INTERVALO_DIAS_PADRAO);
 
         if (termino.isBefore(inicio)) {
             throw new BusinessException("A data de término não pode ser anterior a data de início");
