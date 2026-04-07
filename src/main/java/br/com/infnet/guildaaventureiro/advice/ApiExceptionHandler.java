@@ -2,6 +2,7 @@ package br.com.infnet.guildaaventureiro.advice;
 
 import br.com.infnet.guildaaventureiro.dto.ErrorResponse;
 import br.com.infnet.guildaaventureiro.exception.BusinessException;
+import br.com.infnet.guildaaventureiro.exception.elastic.ElasticsearchComunicacaoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,17 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(
                         "Erro de regra de negócio",
+                        List.of(ex.getMessage())
+                ));
+    }
+
+    @ExceptionHandler(ElasticsearchComunicacaoException.class)
+    public ResponseEntity<ErrorResponse> handleElasticsearchCommunicationException(
+            ElasticsearchComunicacaoException ex
+    ) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(
+                        "Erro de comunicação",
                         List.of(ex.getMessage())
                 ));
     }

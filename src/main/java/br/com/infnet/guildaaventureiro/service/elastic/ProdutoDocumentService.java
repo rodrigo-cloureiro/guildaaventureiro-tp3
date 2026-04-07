@@ -2,6 +2,7 @@ package br.com.infnet.guildaaventureiro.service.elastic;
 
 import br.com.infnet.guildaaventureiro.domain.elastic.ProdutoDocument;
 import br.com.infnet.guildaaventureiro.dto.elastic.*;
+import br.com.infnet.guildaaventureiro.exception.elastic.ElasticsearchComunicacaoException;
 import br.com.infnet.guildaaventureiro.mapper.elastic.ProdutoDocumentMapper;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.aggregations.AggregationRange;
@@ -38,7 +39,7 @@ public class ProdutoDocumentService {
                     .map(Hit::source)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -59,7 +60,7 @@ public class ProdutoDocumentService {
                     .map(Hit::source)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -80,7 +81,7 @@ public class ProdutoDocumentService {
                     .map(Hit::source)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -102,7 +103,7 @@ public class ProdutoDocumentService {
                     .map(Hit::source)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -114,8 +115,7 @@ public class ProdutoDocumentService {
                                     .fields(List.of("nome", "descricao"))
                                     .query(termo)
                             )
-                    )
-                    .size(20), ProdutoDocument.class
+                    ), ProdutoDocument.class
             );
 
             return response.hits()
@@ -124,7 +124,7 @@ public class ProdutoDocumentService {
                     .map(Hit::source)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -155,28 +155,22 @@ public class ProdutoDocumentService {
                     .map(Hit::source)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
     public List<ProdutoDocument> buscarPorFaixaPreco(double min, double max) {
         try {
             SearchResponse<ProdutoDocument> response = client.search(s -> s
-                            .query(q -> q
-                                    .range(r -> r
-                                            .number(n -> n
-                                                    .field("preco")
-                                                    .gte(min)
-                                                    .lte(max)
-                                            )
-                                    )
-                            )/*.sort(so -> so
-                                    .field(f -> f
+                    .query(q -> q
+                            .range(r -> r
+                                    .number(n -> n
                                             .field("preco")
-                                            .order(SortOrder.Asc)
+                                            .gte(min)
+                                            .lte(max)
                                     )
-                            )*/,
-                    ProdutoDocument.class
+                            )
+                    ), ProdutoDocument.class
             );
 
             return response.hits()
@@ -185,7 +179,7 @@ public class ProdutoDocumentService {
                     .map(Hit::source)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -214,7 +208,7 @@ public class ProdutoDocumentService {
                     .map(Hit::source)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -240,7 +234,7 @@ public class ProdutoDocumentService {
                     ))
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -266,7 +260,7 @@ public class ProdutoDocumentService {
                     ))
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -285,7 +279,7 @@ public class ProdutoDocumentService {
                     .value()
             );
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
@@ -312,7 +306,7 @@ public class ProdutoDocumentService {
                     .map(ProdutoDocumentMapper::bucketToFaixaPreco)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
         }
     }
 
