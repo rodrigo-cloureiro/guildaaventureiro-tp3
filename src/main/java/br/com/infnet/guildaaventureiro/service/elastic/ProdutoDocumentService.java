@@ -5,9 +5,9 @@ import br.com.infnet.guildaaventureiro.dto.elastic.*;
 import br.com.infnet.guildaaventureiro.exception.elastic.ElasticsearchComunicacaoException;
 import br.com.infnet.guildaaventureiro.mapper.elastic.ProdutoDocumentMapper;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.AggregationRange;
-import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import lombok.RequiredArgsConstructor;
@@ -21,228 +21,88 @@ import java.util.List;
 public class ProdutoDocumentService {
 
     private final ElasticsearchClient client;
+    private final ProdutoQueryService queryService;
 
     public List<ProdutoDocument> buscarPorNome(String nome) {
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .query(q -> q
-                            .match(m -> m
-                                    .field("nome")
-                                    .query(nome)
-                            )
-                    ), ProdutoDocument.class
-            );
-
-            return extrairHitSources(response);
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
+        return search(queryService.matchQuery("nome", nome)
+                ._toQuery()
+        );
     }
 
     public List<ProdutoDocument> buscarPorDescricao(String descricao) {
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .query(q -> q
-                            .match(m -> m
-                                    .field("descricao")
-                                    .query(descricao)
-                            )
-                    ), ProdutoDocument.class
-            );
-
-            return extrairHitSources(response);
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
+        return search(queryService.matchQuery("descricao", descricao)
+                ._toQuery()
+        );
     }
 
     public List<ProdutoDocument> buscarPorFraseExata(String descricaoExata) {
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .query(q -> q
-                            .matchPhrase(mp -> mp
-                                    .field("descricao")
-                                    .query(descricaoExata)
-                            )
-                    ), ProdutoDocument.class
-            );
-
-            return extrairHitSources(response);
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
+        return search(queryService.matchPhraseQuery("descricao", descricaoExata)
+                ._toQuery()
+        );
     }
 
     public List<ProdutoDocument> buscarPorNomeComTolerancia(String nome) {
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .query(q -> q
-                            .fuzzy(f -> f
-                                    .field("nome")
-                                    .value(nome)
-                                    .fuzziness("AUTO")
-                            )
-                    ), ProdutoDocument.class
-            );
-
-            return extrairHitSources(response);
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
+        return search(queryService.fuzzyQuery("nome", nome)
+                ._toQuery()
+        );
     }
 
     public List<ProdutoDocument> buscarPorNomeEDescricao(String termo) {
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .query(q -> q
-                            .multiMatch(mm -> mm
-                                    .fields(List.of("nome", "descricao"))
-                                    .query(termo)
-                            )
-                    ), ProdutoDocument.class
-            );
-
-            return extrairHitSources(response);
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
+        return search(queryService.multiMatchQuery(List.of("nome", "descricao"), termo)
+                ._toQuery()
+        );
     }
 
     public List<ProdutoDocument> buscarPorDescricaoECategoria(String descricao, String categoria) {
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .query(q -> q
-                            .bool(b -> b
-                                    .must(m -> m
-                                            .match(v -> v
-                                                    .field("descricao")
-                                                    .query(descricao)
-                                            )
-                                    )
-                                    .filter(f -> f
-                                            .term(t -> t
-                                                    .field("categoria")
-                                                    .value(categoria)
-                                            )
-                                    )
-                            )
-                    ), ProdutoDocument.class
-            );
-
-            return extrairHitSources(response);
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
+        return search(Query.of(q -> q
+                .bool(b -> b
+                        .must(queryService.matchQuery("descricao", descricao))
+                        .filter(queryService.termQuery("categoria", categoria))
+                )
+        ));
     }
 
     public List<ProdutoDocument> buscarPorFaixaPreco(double min, double max) {
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .query(q -> q
-                            .range(r -> r
-                                    .number(n -> n
-                                            .field("preco")
-                                            .gte(min)
-                                            .lte(max)
-                                    )
-                            )
-                    ), ProdutoDocument.class
-            );
-
-            return extrairHitSources(response);
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
+        return search(Query.of(q -> q
+                .range(r -> r
+                        .number(queryService.numberRangeQuery("preco", min, max))
+                )
+        ));
     }
 
     public List<ProdutoDocument> buscaCombinada(String categoria, String raridade, double min, double max) {
-        TermQuery categoriaTermQuery = TermQuery.of(t -> t.field("categoria").value(categoria));
-        TermQuery raridadeTermQuery = TermQuery.of(t -> t.field("raridade").value(raridade));
-        RangeQuery faixaPreco = RangeQuery.of(r -> r.number(n -> n.field("preco").gte(min).lte(max)));
-
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .query(q -> q
-                            .bool(b -> b
-                                    .filter(
-                                            categoriaTermQuery,
-                                            raridadeTermQuery,
-                                            faixaPreco
-                                    )
-                            )
-
-                    ), ProdutoDocument.class
-            );
-
-            return extrairHitSources(response);
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
+        return search(Query.of(q -> q
+                .bool(b -> b
+                        .filter(
+                                queryService.termQuery("categoria", categoria),
+                                queryService.termQuery("raridade", raridade),
+                                queryService.numberRangeQuery("preco", min, max)._toRangeQuery()
+                        )
+                )
+        ));
     }
 
-    public List<CategoriaAggregation> quantidadeProdutosPorCategoria() {
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .aggregations("por_categoria", a -> a
-                            .terms(t -> t
-                                    .field("categoria")
-                            )
-                    ), ProdutoDocument.class
-            );
-
-            return response.aggregations()
-                    .get("por_categoria")
-                    .sterms()
-                    .buckets()
-                    .array()
-                    .stream()
-                    .map(bucket -> new CategoriaAggregation(
-                            bucket.key().stringValue(),
-                            bucket.docCount()
-                    ))
-                    .toList();
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
-    }
-
-    public List<RaridadeAggregation> quantidadeProdutosPorRaridade() {
-        try {
-            SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .aggregations("por_raridade", a -> a
-                            .terms(t -> t
-                                    .field("raridade")
-                            )
-                    ), ProdutoDocument.class
-            );
-
-            return response.aggregations()
-                    .get("por_raridade")
-                    .sterms()
-                    .buckets()
-                    .array()
-                    .stream()
-                    .map(bucket -> new RaridadeAggregation(
-                            bucket.key().stringValue(),
-                            bucket.docCount()
-                    ))
-                    .toList();
-        } catch (IOException e) {
-            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
-        }
+    public List<ContagemCampoAggregation> quantidadeProdutosPorCampo(String field) {
+        return search(
+                String.format("por_%s", field),
+                queryService.termsAggregation(field),
+                field
+        );
     }
 
     public PrecoMedioAggregation precoMedioProdutos() {
+        String key = "preco_medio";
+
         try {
             SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .aggregations("preco_medio", a -> a
-                            .avg(avg -> avg
-                                    .field("preco"))
+                    .aggregations(
+                            key,
+                            queryService.averageAggregation("preco")
                     ), ProdutoDocument.class
             );
 
             return new PrecoMedioAggregation(response.aggregations()
-                    .get("preco_medio")
+                    .get(key)
                     .avg()
                     .value()
             );
@@ -252,21 +112,21 @@ public class ProdutoDocumentService {
     }
 
     public List<FaixaPreco> agruparEmFaixaPreco() {
+        String aggregationKey = "faixa_preco";
+        String subAggregationKey = "produtos";
+
         try {
             SearchResponse<ProdutoDocument> response = client.search(s -> s
-                    .aggregations("faixa_preco", a -> a
-                            .range(r -> r
-                                    .field("preco")
-                                    .ranges(getRangesPreco())
-                            )
-                            .aggregations("produtos", sa -> sa
+                    .aggregations(aggregationKey, a -> a
+                            .range(queryService.rangeAggregation("preco", getRangesPreco()))
+                            .aggregations(subAggregationKey, sa -> sa
                                     .topHits(th -> th)
                             )
                     ), ProdutoDocument.class
             );
 
             return response.aggregations()
-                    .get("faixa_preco")
+                    .get(aggregationKey)
                     .range()
                     .buckets()
                     .array()
@@ -287,11 +147,56 @@ public class ProdutoDocumentService {
         );
     }
 
+    private List<ProdutoDocument> search(Query query) {
+        try {
+            SearchResponse<ProdutoDocument> response = client.search(s -> s
+                            .query(query),
+                    ProdutoDocument.class
+            );
+
+            return extrairHitSources(response);
+        } catch (IOException e) {
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
+        }
+    }
+
+    private List<ContagemCampoAggregation> search(String key, Aggregation value, String field) {
+        try {
+            SearchResponse<ProdutoDocument> response = client.search(s -> s
+                            .aggregations(key, value),
+                    ProdutoDocument.class
+            );
+
+            return mapStringTermsAggregate(response, key, field);
+        } catch (IOException e) {
+            throw new ElasticsearchComunicacaoException("Erro ao executar busca no Elasticsearch");
+        }
+    }
+
     private List<ProdutoDocument> extrairHitSources(SearchResponse<ProdutoDocument> response) {
         return response.hits()
                 .hits()
                 .stream()
                 .map(Hit::source)
+                .toList();
+    }
+
+    private List<ContagemCampoAggregation> mapStringTermsAggregate(
+            SearchResponse<ProdutoDocument> response,
+            String key,
+            String field
+    ) {
+        return response.aggregations()
+                .get(key)
+                .sterms()
+                .buckets()
+                .array()
+                .stream()
+                .map(bucket -> new ContagemCampoAggregation(
+                        field,
+                        bucket.key().stringValue(),
+                        bucket.docCount()
+                ))
                 .toList();
     }
 }
