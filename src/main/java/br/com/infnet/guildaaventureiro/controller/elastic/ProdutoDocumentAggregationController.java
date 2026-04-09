@@ -1,9 +1,6 @@
 package br.com.infnet.guildaaventureiro.controller.elastic;
 
-import br.com.infnet.guildaaventureiro.dto.elastic.CategoriaAggregation;
-import br.com.infnet.guildaaventureiro.dto.elastic.FaixaPreco;
-import br.com.infnet.guildaaventureiro.dto.elastic.PrecoMedioAggregation;
-import br.com.infnet.guildaaventureiro.dto.elastic.RaridadeAggregation;
+import br.com.infnet.guildaaventureiro.dto.elastic.*;
 import br.com.infnet.guildaaventureiro.service.elastic.ProdutoDocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +18,15 @@ public class ProdutoDocumentAggregationController {
     private final ProdutoDocumentService produtoDocumentService;
 
     @GetMapping(value = "/por-categoria")
-    public ResponseEntity<List<CategoriaAggregation>> quantidadeProdutosPorCategoria() {
+    public ResponseEntity<List<ContagemCampoAggregation>> quantidadeProdutosPorCategoria() {
         return ResponseEntity.ok()
-                .body(produtoDocumentService.quantidadeProdutosPorCategoria());
+                .body(produtoDocumentService.quantidadeProdutosPorCampo("categoria"));
     }
 
     @GetMapping(value = "/por-raridade")
-    public ResponseEntity<List<RaridadeAggregation>> quantidadeProdutosPorRaridade() {
+    public ResponseEntity<List<ContagemCampoAggregation>> quantidadeProdutosPorRaridade() {
         return ResponseEntity.ok()
-                .body(produtoDocumentService.quantidadeProdutosPorRaridade());
+                .body(produtoDocumentService.quantidadeProdutosPorCampo("raridade"));
     }
 
     @GetMapping(value = "/preco-medio")
