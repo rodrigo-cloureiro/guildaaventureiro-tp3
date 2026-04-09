@@ -1,11 +1,10 @@
 package br.com.infnet.guildaaventureiro.service.elastic;
 
 import br.com.infnet.guildaaventureiro.domain.elastic.ProdutoDocument;
-import br.com.infnet.guildaaventureiro.dto.elastic.CategoriaAggregation;
-import br.com.infnet.guildaaventureiro.dto.elastic.FaixaPreco;
-import br.com.infnet.guildaaventureiro.dto.elastic.PrecoMedioAggregation;
-import br.com.infnet.guildaaventureiro.dto.elastic.RaridadeAggregation;
+import br.com.infnet.guildaaventureiro.dto.elastic.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.elasticsearch.test.autoconfigure.DataElasticsearchTest;
 import org.springframework.cache.CacheManager;
@@ -19,7 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataElasticsearchTest
-@Import(ProdutoDocumentService.class)
+@Import({
+        ProdutoDocumentService.class,
+        ProdutoQueryService.class
+})
 public class ProdutoDocumentServiceTest {
 
     @MockitoBean
@@ -140,18 +142,17 @@ public class ProdutoDocumentServiceTest {
         );
     }
 
-    @Test
-    public void quantidadeProdutosPorCategoria() {
-        List<CategoriaAggregation> result = service.quantidadeProdutosPorCategoria();
+    @ParameterizedTest
+    @CsvSource(value = {
+            "categoria",
+            "raridade"
+    })
+    public void quantidadeProdutosPorCampo(String campo) {
+        List<ContagemCampoAggregation> result = service.quantidadeProdutosPorCampo(campo);
         assertFalse(result.isEmpty());
-        assertTrue(result.stream().allMatch(r -> r.quantidade() >= 0));
-    }
-
-    @Test
-    public void quantidadeProdutosPorRaridade() {
-        List<RaridadeAggregation> result = service.quantidadeProdutosPorRaridade();
-        assertFalse(result.isEmpty());
-        assertTrue(result.stream().allMatch(r -> r.quantidade() >= 0));
+        assertTrue(result.stream().allMatch(r ->
+                r.quantidade() >= 0 && r.campo().equalsIgnoreCase(campo)
+        ));
     }
 
     @Test
