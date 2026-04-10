@@ -12,7 +12,7 @@ Projeto desenvolvido com **Spring Boot** utilizando **PostgreSQL** como banco de
 - Spring Data JPA 4.0.3
 - Elasticsearch
 - PostgreSQL
-- Docker
+- Docker & Docker Compose
 
 ## 📂Estrutura do Projeto
 
@@ -159,6 +159,27 @@ Para executar os testes:
 
 ```shell
 mvn test
+```
+
+## ▶️Como executar o projeto com Docker Compose
+
+1. Clonar o repositório
+
+```shell
+git clone https://github.com/rodrigo-cloureiro/guildaaventureiro-tp3.git
+cd guildaaventureiro-tp3
+```
+
+2. Entrar na pasta docker/
+
+```shell
+cd docker/
+```
+
+3. Subir tudo com Docker Compose
+
+```shell
+docker compose up --build
 ```
 
 ## Autor
